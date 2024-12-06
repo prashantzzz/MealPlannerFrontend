@@ -1,24 +1,57 @@
-<div class="register-container">
-    <h2>Register</h2>
-    <form (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="fill">
-        <mat-label>Username</mat-label>
-        <input matInput [(ngModel)]="formData.username" name="username" required />
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" [(ngModel)]="formData.password" name="password" required />
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Email</mat-label>
-        <input matInput [(ngModel)]="formData.email" name="email" required />
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Phone Number</mat-label>
-        <input matInput [(ngModel)]="formData.phoneNumber" name="phoneNumber" />
-      </mat-form-field>
-      <button mat-raised-button color="primary" type="submit">Register</button>
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4 max-w-md mx-auto">
+      <div class="flex flex-col">
+        <label for="username" class="font-medium mb-1">Username</label>
+        <input id="username" type="text" formControlName="username"
+          class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <p *ngIf="registerForm.get('username')?.hasError('required')" class="text-red-500 text-sm mt-1">Username is
+          required
+        </p>
+        <p *ngIf="registerForm.get('username')?.hasError('minlength')" class="text-red-500 text-sm mt-1">Username must
+          be at
+          least 3 characters long</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="password" class="font-medium mb-1">Password</label>
+        <input id="password" type="password" formControlName="password"
+          class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <p *ngIf="registerForm.get('password')?.hasError('required')" class="text-red-500 text-sm mt-1">Password is
+          required
+        </p>
+        <p *ngIf="registerForm.get('password')?.hasError('minlength')" class="text-red-500 text-sm mt-1">Password must
+          be at
+          least 6 characters long</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="email" class="font-medium mb-1">Email</label>
+        <input id="email" type="email" formControlName="email"
+          class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <p *ngIf="registerForm.get('email')?.hasError('required')" class="text-red-500 text-sm mt-1">Email is required
+        </p>
+        <p *ngIf="registerForm.get('email')?.hasError('email')" class="text-red-500 text-sm mt-1">Please enter a valid
+          email
+          address</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="phoneNumber" class="font-medium mb-1">Phone Number</label>
+        <input id="phoneNumber" type="text" formControlName="phoneNumber"
+          class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <p *ngIf="registerForm.get('phoneNumber')?.hasError('required')" class="text-red-500 text-sm mt-1">Phone number
+          is
+          required</p>
+        <p *ngIf="registerForm.get('phoneNumber')?.hasError('pattern')" class="text-red-500 text-sm mt-1">Phone number
+          must
+          be 10 digits</p>
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed">
+        Register
+      </button>
     </form>
-    <a routerLink="/login">Already have an account? Login here</a>
   </div>
-  
+</div>
