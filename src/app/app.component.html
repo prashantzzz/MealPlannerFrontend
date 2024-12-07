@@ -1,30 +1,22 @@
 <div class="app-container">
   <header>
-    <!-- <nav>
-      <ul>
-        <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-        <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
-        <li><a routerLink="/dashboard">Go to Dashboard</a></li>
-      </ul>
-    </nav> -->
-
     <nav class="bg-white py-4 px-6 shadow-sm fixed w-full z-50 mb-10">
       <div class="max-w-7xl mx-auto flex items-center justify-between">
         <div class="flex items-center gap-12">
           <a href="#" class="text-emerald-600 text-2xl font-bold">MealPlanner</a>
 
-          <div class="hidden md:flex items-center gap-1">
+          <!-- <div class="hidden md:flex items-center gap-1">
             <input type="text" placeholder="Search here..."
               class="px-4 py-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
-          </div>
+          </div> -->
         </div>
 
         <div class="hidden md:flex items-center gap-8">
-          <a href="#" class="text-emerald-600 hover:text-emerald-700">Home</a>
-          <a href="#" class="text-gray-600 hover:text-gray-800">Pages</a>
-          <a href="#" class="text-gray-600 hover:text-gray-800">Insurances</a>
-          <a href="#" class="text-gray-600 hover:text-gray-800">Blog</a>
-          <a href="#" class="text-gray-600 hover:text-gray-800">Contact Us</a>
+          <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Home</a>
+          <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Recipies</a>
+          <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Subscription</a>
+          <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">ShoppingList</a>
+          <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">MealPlanning</a>
         </div>
 
         <div class="flex items-center gap-4">
@@ -51,18 +43,18 @@
 
   
   <footer class="bg-gray-50 py-16">
-    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
         <!-- Company Info Column -->
         <div class="space-y-6">
-            <h2 class="text-teal-600 text-3xl font-bold">Logo</h2>
+            <h2 class="text-teal-600 text-3xl font-bold">Prashant</h2>
             <div class="space-y-4 text-gray-600">
                 <div class="flex items-start">
                     <span class="font-medium min-w-24">Location:</span>
-                    <span>Street 1, Square Mall</span>
+                    <span>VIT Vellore 632014</span>
                 </div>
                 <div class="flex items-start">
                     <span class="font-medium min-w-24">Contact:</span>
-                    <span>+9 5555559909</span>
+                    <span>+91 9876543210</span>
                 </div>
                 <div class="flex items-start">
                     <span class="font-medium min-w-24">Time:</span>
@@ -70,7 +62,7 @@
                 </div>
                 <div class="flex items-start">
                     <span class="font-medium min-w-24">Email:</span>
-                    <span>youme&#64;Rule.com</span>
+                    <span>planner&#64;gmail.com</span>
                 </div>
                 <div class="flex gap-3">
                   <a href="#" class="bg-emerald-50 p-2 rounded-full hover:bg-emerald-100 transition-colors">
@@ -98,11 +90,11 @@
         </div>
   
         <div class="space-y-6">
-            <h3 class="text-xl font-bold text-gray-900">Company</h3>
+            <h3 class="text-xl font-bold text-gray-900">Project</h3>
             <ul class="space-y-4 text-gray-600">
-                <li><a href="#" class="hover:text-teal-600">Case Studies</a></li>
-                <li><a href="#" class="hover:text-teal-600">Case Details</a></li>
-                <li><a href="#" class="hover:text-teal-600">Privacy Policy</a></li>
+                <li><a href="#" class="hover:text-teal-600">Readme</a></li>
+                <li><a href="#" class="hover:text-teal-600">Git Repo</a></li>
+                <li><a href="#" class="hover:text-teal-600">Developer</a></li>
                 <li><a href="#" class="hover:text-teal-600">Services</a></li>
             </ul>
         </div>
@@ -110,22 +102,13 @@
         <div class="space-y-6">
             <h3 class="text-xl font-bold text-gray-900">Explore</h3>
             <ul class="space-y-4 text-gray-600">
-                <li><a href="#" class="hover:text-teal-600">About Us</a></li>
-                <li><a href="#" class="hover:text-teal-600">Blog And News</a></li>
-                <li><a href="#" class="hover:text-teal-600">Blog Details</a></li>
-                <li><a href="#" class="hover:text-teal-600">Pricing</a></li>
+                <li><a href="#" class="hover:text-teal-600">Recipies</a></li>
+                <li><a href="#" class="hover:text-teal-600">Reviews</a></li>
+                <li><a href="#" class="hover:text-teal-600">Subscription</a></li>
+                <li><a href="#" class="hover:text-teal-600">Meal Planning</a></li>
             </ul>
         </div>
   
-        <div class="space-y-6">
-            <h3 class="text-xl font-bold text-gray-900">Insurance</h3>
-            <ul class="space-y-4 text-gray-600">
-                <li><a href="#" class="hover:text-teal-600">Health Insurance</a></li>
-                <li><a href="#" class="hover:text-teal-600">Car Insurance</a></li>
-                <li><a href="#" class="hover:text-teal-600">Business Insurance</a></li>
-                <li><a href="#" class="hover:text-teal-600">Life Insurance</a></li>
-            </ul>
-        </div>
     </div>
   </footer>
 
