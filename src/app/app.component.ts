@@ -10,5 +10,5 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'meal-planner';
+  title = 'MealPlanner';
 }
