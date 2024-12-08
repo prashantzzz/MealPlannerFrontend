@@ -1,27 +1,54 @@
-<div class="shoppinglist-container">
-    <h2>Shopping List</h2>
-    <div class="form-group">
-      <label for="recipeId">Recipe ID:</label>
-      <input
-        id="recipeId"
-        type="number"
-        [(ngModel)]="recipeId"
-        placeholder="Enter Recipe ID"
-        class="form-control"
-      />
-    </div>
-    <button (click)="fetchIngredients()" class="btn btn-primary">Fetch Ingredients</button>
+<div class="shoppinglist-container p-10 pt-24 px-24 mx-auto">
+    <h2 class="text-xl font-bold mb-4">Shopping List</h2>
+    <div *ngIf="loading">Loading...</div>
   
-    <div *ngIf="ingredients.length > 0">
-      <h3>Ingredients</h3>
-      <ul>
-        <li *ngFor="let ingredient of ingredients">
-          {{ ingredient.name }} - {{ ingredient.quantity }}
-        </li>
-      </ul>
+    <div *ngIf="!loading && shoppingList.length === 0">
+      <p>No recipes found in your meal plans.</p>
     </div>
-    <div *ngIf="ingredients.length === 0 && recipeId">
-      <p>No ingredients found for this recipe.</p>
+  
+    <div *ngIf="!loading && shoppingList.length > 0">
+      <table class="table-auto w-full border">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="border px-4 py-2">Recipe Name</th>
+            <th class="border px-4 py-2">Ingredient</th>
+            <th class="border px-4 py-2">Bought</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Loop through recipes -->
+          <ng-container *ngFor="let recipe of shoppingList">
+            <tr>
+              <td class="border px-4 py-2" [attr.rowspan]="recipe.ingredients.length">
+                {{ recipe.recipeName }}
+              </td>
+              <td class="border px-4 py-2">
+                {{ recipe.ingredients[0].name }}
+              </td>
+              <td class="border px-4 py-2">
+                <input
+                  type="checkbox"
+                  [checked]="recipe.ingredients[0].bought"
+                  (change)="toggleBought(recipe.recipeId, recipe.ingredients[0].name)"
+                />
+              </td>
+            </tr>
+            <!-- Display subsequent rows for the ingredients -->
+            <tr *ngFor="let ingredient of recipe.ingredients.slice(1)">
+              <td class="border px-4 py-2">
+                {{ ingredient.name }}
+              </td>
+              <td class="border px-4 py-2">
+                <input
+                  type="checkbox"
+                  [checked]="ingredient.bought"
+                  (change)="toggleBought(recipe.recipeId, ingredient.name)"
+                />
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
     </div>
   </div>
   

@@ -39,11 +39,17 @@ export class RecipeComponent implements OnInit {
   loadRecipes(): void {
     this.recipesService.getAllRecipes().subscribe({
       next: (response) => {
-        this.recipes = response.data;
+        // Assign a temporary RecipeId to each recipe
+        this.recipes = response.data.map((recipe: any, index: number) => ({
+          RecipeId: index + 1, // Generate RecipeId as 1-based index
+          ...recipe
+        }));
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error(err),
     });
   }
+  
+  
 
   onSubmit(): void {
     if (this.editingRecipe) {

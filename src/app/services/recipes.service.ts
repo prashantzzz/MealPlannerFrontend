@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -22,8 +23,14 @@ export class RecipesService {
   }
 
   getRecipeById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+    return this.http
+      .get(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() })
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching recipe:', error);
+          return throwError(error);
+        })
+      );
   }
 
   createRecipe(recipe: any): Observable<any> {
