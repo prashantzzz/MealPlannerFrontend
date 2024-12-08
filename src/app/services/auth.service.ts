@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -22,9 +22,19 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/register/customer`, data)
       .pipe(catchError(this.handleError)); // Add error handling here
   }
-  
+
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  getUsername(): string | null {
+    return localStorage.getItem('username');
   }
 
   private handleError(error: any): Observable<any> {
@@ -37,5 +47,4 @@ export class AuthService {
     const token = localStorage.getItem('token');
     return !!token && !this.jwtHelper.isTokenExpired(token); // Ensure the result is boolean
   }
-  
 }

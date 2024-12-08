@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms'; // For two-way binding
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { AppComponent } from '../app.component';  //to access checkAuthentication
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,11 @@ export class LoginComponent {
   username = '';
   password = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private appComponent: AppComponent // Inject AppComponent
+  ) {}
 
   /**
    * works when login is clicked
@@ -31,11 +36,15 @@ export class LoginComponent {
   onSubmit(): void {
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
-        localStorage.setItem('token', response.token);
-        this.router.navigate(['/dashboard']); // Redirect to a dashboard or home page
-        console.log('Login submitted:', { username: this.username, password: this.password });
+        const { token } = response; // Extract token object
+        localStorage.setItem('token', token.token); // Store JWT token
+        localStorage.setItem('role', token.role);   // Store role
+        localStorage.setItem('username', token.username); //store username
+        this.appComponent.checkAuthentication();    // Update UI state
+        this.router.navigate(['/dashboard']);       // Navigate to dashboard
       },
-      error: (err) => alert('Invalid credentials')
+      error: () => alert('Invalid credentials')
     });
   }
+  
 }

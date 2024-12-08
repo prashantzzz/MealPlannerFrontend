@@ -13,25 +13,35 @@
 
         <div class="hidden md:flex items-center gap-8">
           <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Home</a>
-          <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Recipies</a>
+          <a routerLink="/recipes" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Recipies</a>
           <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Subscription</a>
           <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">ShoppingList</a>
           <a routerLink="/dashboard" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">MealPlanning</a>
         </div>
 
+
         <div class="flex items-center gap-4">
-          <a routerLink="/login" routerLinkActive="active" class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors">
+          <!-- Show login and signup buttons if not authenticated -->
+          <a *ngIf="!isAuthenticated" routerLink="/login" routerLinkActive="active" class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors">
             Login
           </a>
-          <a routerLink="/register" routerLinkActive="active" class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors">
+          <a *ngIf="!isAuthenticated" routerLink="/register" routerLinkActive="active" class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors">
             Signup
           </a>
+        
+          <!-- Show logout button if authenticated -->
+          <button *ngIf="isAuthenticated" (click)="logout()" class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors">
+            Logout
+          </button>
+        
           <button class="md:hidden">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
             </svg>
           </button>
         </div>
+        
+        
       </div>
     </nav>
 
