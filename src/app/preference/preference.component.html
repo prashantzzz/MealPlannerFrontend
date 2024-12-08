@@ -1,54 +1,46 @@
 <div class="container mx-auto p-10 pt-24">
     <h2 class="text-xl font-bold mb-4">Dietary Preferences</h2>
   
-    <!-- Preferences List -->
-    <div *ngFor="let preference of preferences" class="mb-4 p-4 border rounded">
-      <h3 class="text-lg font-semibold">{{ preference.preferenceType }}</h3>
-      <p>{{ preference.description }}</p>
-      <button
-        class="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-        (click)="editPreference(preference)"
-      >
-        Edit
-      </button>
-      <button
-        class="bg-red-500 text-white px-4 py-2 rounded"
-        (click)="deletePreference(preference.preferenceId)"
-      >
-        Delete
-      </button>
+    <!-- Display all preferences for Admin, MealPlanner, or Nutritionist -->
+    <div *ngIf="isAdminOrPlanner" class="mb-4 p-4 border rounded">
+      <h2 class="text-2xl font-bold mb-4">All User Preferences</h2>
+      <div *ngFor="let preference of allPreferences" class="mb-4 p-4 border rounded">
+        <h3 class="text-lg font-semibold">{{ preference.preferenceType }}</h3>
+        <p>{{ preference.description }}</p>
+        <p><strong>User ID:</strong> {{ preference.userId }}</p>
+        <!-- <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" (click)="editPreference(preference)">Edit</button>
+        <button class="bg-red-500 text-white px-4 py-2 rounded" (click)="deletePreference(preference.preferenceId)">Delete</button> -->
+      </div>
     </div>
   
-    <!-- Create or Update Preference -->
-    <form (ngSubmit)="onSubmit()">
-      <h3 class="text-lg font-semibold mb-2">
-        {{ isEditMode ? 'Edit Preference' : 'Add Preference' }}
-      </h3>
+    <!-- Display preferences for the logged-in customer -->
+    <div *ngIf="isCustomer">
+      <h2 class="text-2xl font-bold mb-4">Your Dietary Preferences</h2>
+      <div *ngFor="let preference of preferences" class="mb-4 p-4 border rounded">
+        <h3 class="text-lg font-semibold">{{ preference.preferenceType }}</h3>
+        <p>{{ preference.description }}</p>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" (click)="editPreference(preference)">Edit</button>
+        <button class="bg-red-500 text-white px-4 py-2 rounded" (click)="deletePreference(preference.preferenceId)">Delete</button>
+      </div>
+    </div>
+  
+    <!-- No preferences message for Customer -->
+    <div *ngIf="isCustomer && preferences?.length === 0" class="text-gray-600">
+      <p>No dietary preferences found. Please create one.</p>
+    </div>
+  
+    <!-- Create or Update Preference Form -->
+    <form (ngSubmit)="createPreference()">
+      <h3 class="text-lg font-semibold mb-2">Add Preference</h3>
       <div class="mb-4">
         <label class="block mb-2">Preference Type:</label>
-        <input
-          type="text"
-          [(ngModel)]="currentPreference.preferenceType"
-          name="preferenceType"
-          class="border rounded p-2 w-full"
-          required
-        />
+        <input type="text" [(ngModel)]="newPreference.preferenceType" name="preferenceType" class="border rounded p-2 w-full" required />
       </div>
       <div class="mb-4">
         <label class="block mb-2">Description:</label>
-        <textarea
-          [(ngModel)]="currentPreference.description"
-          name="description"
-          class="border rounded p-2 w-full"
-          required
-        ></textarea>
+        <textarea [(ngModel)]="newPreference.description" name="description" class="border rounded p-2 w-full" required></textarea>
       </div>
-      <button
-        type="submit"
-        class="bg-green-500 text-white px-4 py-2 rounded"
-      >
-        {{ isEditMode ? 'Update' : 'Create' }}
-      </button>
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Save Preference</button>
     </form>
   </div>
   

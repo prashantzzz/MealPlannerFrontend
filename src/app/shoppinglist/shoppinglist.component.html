@@ -1,0 +1,27 @@
+<div class="shoppinglist-container">
+    <h2>Shopping List</h2>
+    <div class="form-group">
+      <label for="recipeId">Recipe ID:</label>
+      <input
+        id="recipeId"
+        type="number"
+        [(ngModel)]="recipeId"
+        placeholder="Enter Recipe ID"
+        class="form-control"
+      />
+    </div>
+    <button (click)="fetchIngredients()" class="btn btn-primary">Fetch Ingredients</button>
+  
+    <div *ngIf="ingredients.length > 0">
+      <h3>Ingredients</h3>
+      <ul>
+        <li *ngFor="let ingredient of ingredients">
+          {{ ingredient.name }} - {{ ingredient.quantity }}
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="ingredients.length === 0 && recipeId">
+      <p>No ingredients found for this recipe.</p>
+    </div>
+  </div>
+  
