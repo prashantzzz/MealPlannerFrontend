@@ -1,0 +1,67 @@
+<div class="container mx-auto p-6">
+    <h2 class="text-xl font-bold mb-4">Meal Plans</h2>
+  
+    <table class="table-auto w-full border">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="border px-4 py-2">Meal Plan ID</th>
+          <th class="border px-4 py-2">Meal Type</th>
+          <th class="border px-4 py-2">Start Date</th>
+          <th class="border px-4 py-2">End Date</th>
+          <th class="border px-4 py-2">Recipe ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let plan of mealPlans">
+          <td class="border px-4 py-2">{{ plan.mealPlanId }}</td>
+          <td class="border px-4 py-2">{{ plan.mealType }}</td>
+          <td class="border px-4 py-2">{{ plan.startDate }}</td>
+          <td class="border px-4 py-2">{{ plan.endDate }}</td>
+          <td class="border px-4 py-2">{{ plan.recipeId }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <h3 class="text-lg font-bold mt-6">Add Meal Plan</h3>
+    <form (ngSubmit)="createMealPlan()" class="space-y-4 mt-4">
+      <input
+        type="date"
+        [(ngModel)]="newMealPlan.startDate"
+        name="startDate"
+        placeholder="Start Date"
+        class="border px-3 py-2 rounded"
+        required
+      />
+      <input
+        type="date"
+        [(ngModel)]="newMealPlan.endDate"
+        name="endDate"
+        placeholder="End Date"
+        class="border px-3 py-2 rounded"
+        required
+      />
+      <input
+        type="text"
+        [(ngModel)]="newMealPlan.mealType"
+        name="mealType"
+        placeholder="Meal Type"
+        class="border px-3 py-2 rounded"
+        required
+      />
+      <input
+        type="number"
+        [(ngModel)]="newMealPlan.recipeId"
+        name="recipeId"
+        placeholder="Recipe ID"
+        class="border px-3 py-2 rounded"
+        required
+      />
+      <button
+        type="submit"
+        class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700"
+      >
+        Add Meal Plan
+      </button>
+    </form>
+  </div>
+  
