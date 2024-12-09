@@ -1,0 +1,140 @@
+<div class="container mx-auto py-8 px-4">
+    <h1 class="text-2xl font-bold mb-6 text-center">Admin Reports</h1>
+
+    <!-- Button to Generate Reports -->
+    <div class="text-center mb-8">
+        <button class="bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded"
+            (click)="generateReports()">
+            Generate Reports
+        </button>
+    </div>
+
+    <div *ngIf="reports">
+        <!-- User Statistics Report -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">User Statistics Report</h2>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <p>Total Users: <span class="font-medium">{{ reports.userStatistics.totalUsers }}</span></p>
+                <p>Active Users: <span class="font-medium">{{ reports.userStatistics.activeUsers }}</span></p>
+                <h3 class="mt-4 text-lg font-semibold">Users by Role:</h3>
+                <ul class="list-disc list-inside mt-2">
+                    <li *ngFor="let role of objectKeys(reports.userStatistics.roles)">
+                        {{ role }}: {{ reports.userStatistics.roles[role] }}
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Recipe Popularity Report -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Recipe Popularity Report</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 overflow-x-auto">
+                <table class="table-auto w-full text-left">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-4 py-2">Recipe Name</th>
+                            <th class="px-4 py-2">Total Reviews</th>
+                            <th class="px-4 py-2">Average Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let recipe of reports.recipePopularity" class="border-b">
+                            <td class="px-4 py-2">{{ recipe.name }}</td>
+                            <td class="px-4 py-2">{{ recipe.totalReviews }}</td>
+                            <td class="px-4 py-2">{{ recipe.formattedAverageRating }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Meal Plan Utilization Report -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Meal Plan Utilization Report</h2>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <p>Total Meal Plans: <span class="font-medium">{{ reports.mealPlanUtilization.totalMealPlans }}</span>
+                </p>
+                <p>Active Meal Plans: <span class="font-medium">{{ reports.mealPlanUtilization.activeMealPlans }}</span>
+                </p>
+                <p>Users with Meal Plans: <span class="font-medium">{{ reports.mealPlanUtilization.usersWithMealPlans
+                        }}</span></p>
+            </div>
+        </section>
+
+        <!-- Shopping List Status Report -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Shopping List Status Report</h2>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <p>Total Ingredients: <span class="font-medium">{{ reports.shoppingListStatus.totalIngredients }}</span>
+                </p>
+                <p>Pending Items: <span class="font-medium">{{ reports.shoppingListStatus.pendingItems }}</span></p>
+                <p>Completed Items: <span class="font-medium">{{ reports.shoppingListStatus.completedItems }}</span></p>
+            </div>
+        </section>
+
+        <!-- Dietary Preferences Report -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Dietary Preferences Report</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 overflow-x-auto">
+                <table class="table-auto w-full text-left">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-4 py-2">Preference Type</th>
+                            <th class="px-4 py-2">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let preference of reports.dietaryPreferences" class="border-b">
+                            <td class="px-4 py-2">{{ preference.type }}</td>
+                            <td class="px-4 py-2">{{ preference.count }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Meal Preparation Analysis Report -->
+        <section>
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Meal Preparation Analysis Report</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 overflow-x-auto">
+                <h3 class="text-lg font-semibold">Average Preparation Time by Recipe:</h3>
+                <table class="table-auto w-full text-left mt-4">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-4 py-2">Recipe Name</th>
+                            <th class="px-4 py-2">Average Prep Time (minutes)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let recipe of reports.mealPreparationAnalysis.avgPrepTimeByRecipe" class="border-b">
+                            <td class="px-4 py-2">{{ recipe.name }}</td>
+                            <td class="px-4 py-2">{{ recipe.avgPrepTime }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="text-lg font-semibold mt-8">Most Used Ingredients:</h3>
+                <table class="table-auto w-full text-left mt-4">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-4 py-2">Ingredient Name</th>
+                            <th class="px-4 py-2">Usage Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ingredient of reports.mealPreparationAnalysis.mostUsedIngredients"
+                            class="border-b">
+                            <td class="px-4 py-2">{{ ingredient.name }}</td>
+                            <td class="px-4 py-2">{{ ingredient.count }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- No Data Message -->
+    <div *ngIf="!reports" class="text-center mt-8">
+        <p class="text-gray-500">No reports to display. Click "Generate Reports" to fetch the data.</p>
+    </div>
+</div>

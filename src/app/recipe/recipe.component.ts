@@ -53,15 +53,14 @@ export class RecipeComponent implements OnInit {
   showRecipeReviews(recipeId: number): void {
     // Toggle visibility
     if (this.reviewVisibility[recipeId]) {
-      // Hide reviews if currently visible
       this.reviewVisibility[recipeId] = false;
       this.reviews = [];
     } else {
-      // Show reviews
       this.reviewVisibility[recipeId] = true;
       this.recipesService.getReviewsForRecipe(recipeId).subscribe({
         next: (response) => {
           this.reviews = response.data;
+          console.log(this.reviews);
         },
         error: (err) => console.error('Error fetching reviews:', err),
       });

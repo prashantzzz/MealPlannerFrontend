@@ -57,7 +57,7 @@
       </h2>
 
       <!-- Recipe Details -->
-      <div class="space-y-3 text-sm text-gray-600">
+      <div class="space-y-3 text-sm text-gray-600 relative">
         <p><span class="font-semibold text-gray-800">Category:</span> {{ recipe.category }}</p>
         <p><span class="font-semibold text-gray-800">Cooking Time:</span> {{ recipe.cookingTime }} minutes</p>
         <p><span class="font-semibold text-gray-800">Preparation Steps:</span> {{ recipe.preparationSteps }}</p>
@@ -71,16 +71,16 @@
         <p><span class="font-semibold text-gray-800">Nutritional Info:</span> {{ recipe.nutritionalInfo }}</p>
 
         <!-- Admin/Chef/Nutritionist Actions -->
-        <div class="mt-4">
+        <div class="absolute top-0 right-0 flex flex-col space-y-2">
           <button *ngIf="userRole === 'Admin' || userRole === 'Chef' || userRole === 'Nutritionist'"
-            class="bg-blue-400 text-white px-3 py-1 rounded mr-2 hover:bg-blue-700" (click)="editRecipe(recipe)">
+            class="bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-700" (click)="editRecipe(recipe)">
             Edit
           </button>
           <button *ngIf="userRole === 'Admin' || userRole === 'Chef' || userRole === 'Nutritionist'"
             class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700" (click)="deleteRecipe(recipe.RecipeId)">
             Delete
           </button>
-          <button class="bg-blue-500 text-white px-4 py-2 mt-4 rounded hover:bg-blue-700"
+          <button class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700"
             (click)="showRecipeReviews(recipe.RecipeId)">
             {{ reviewVisibility[recipe.RecipeId] ? 'Hide Reviews' : 'Show Reviews' }}
           </button>
@@ -92,7 +92,18 @@
         <h4 class="text-lg font-bold mb-2">User Reviews:</h4>
         <div *ngIf="reviews.length > 0; else noReviews">
           <div *ngFor="let review of reviews" class="border border-gray-300 p-4 rounded-lg mb-2">
-            <p><span class="font-semibold">Rating:</span> {{ review.rating }} / 5</p>
+            <p>
+              <span class="bg-emerald-100 font-bold text-emerald-700 px-2 py-1 rounded-full -ml-1 mr-2 text-sm">
+                User {{review.userId}}
+              </span>
+              <span class="text-gray-500 text-sm">{{ review.reviewDate | date }}</span>
+              
+              <div></div>
+            <span class="font-semibold">Rating:</span> 
+              {{ review.rating }} 
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -mt-1 -ml-0.5 inline text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 .587l3.668 7.431 8.2 1.191-5.934 5.787 1.4 8.178L12 18.897l-7.334 3.852 1.4-8.178L.132 9.209l8.2-1.191L12 .587z" />
+              </svg>
             <p><span class="font-semibold">Review:</span> {{ review.reviewText }}</p>
             <p class="text-gray-500 text-sm">{{ review.reviewDate | date }}</p>
           </div>
