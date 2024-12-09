@@ -51,8 +51,13 @@ export class ReportsService {
     return { totalUsers, activeUsers, roles };
   }
 
-  private processRecipePopularity(recipes: any[], reviews: any[]): any {
-    const recipeReviews = reviews.reduce((acc: any, review: any) => {
+  public processRecipePopularity(recipes: any[], reviews: any[]): any[] {
+    interface ReviewData {
+      totalReviews: number;
+      totalRating: number;
+    }
+  
+    const recipeReviews: Record<number, ReviewData> = reviews.reduce((acc: Record<number, ReviewData>, review: any) => {
       if (!acc[review.recipeId]) {
         acc[review.recipeId] = { totalReviews: 0, totalRating: 0 };
       }
@@ -60,16 +65,18 @@ export class ReportsService {
       acc[review.recipeId].totalRating += review.rating;
       return acc;
     }, {});
-
+  
     return recipes
       .filter(recipe => recipeReviews[recipe.recipeId])
       .map(recipe => ({
         name: recipe.name,
         totalReviews: recipeReviews[recipe.recipeId].totalReviews,
-        averageRating: recipeReviews[recipe.recipeId].totalRating / recipeReviews[recipe.recipeId].totalReviews
+        averageRating: recipeReviews[recipe.recipeId].totalRating / recipeReviews[recipe.recipeId].totalReviews,
       }))
-      .sort((a, b) => b.averageRating - a.averageRating); // `averageRating` is now properly typed
+      .sort((a, b) => b.averageRating - a.averageRating);
   }
+  
+  
 
   private processMealPlanUtilization(mealPlans: any[]): any {
     const totalMealPlans = mealPlans.length;
@@ -100,7 +107,7 @@ export class ReportsService {
 
     return Object.entries(preferenceCounts)
       .map(([type, count]) => ({ type, count }))
-      .sort((a, b) => b.count - a.count); // `count` is now properly typed
+      .sort((a, b) => b.count - a.count); 
   }
 
   private processMealPreparationAnalysis(recipes: any[], mealPrep: any[]): any {
@@ -122,7 +129,7 @@ export class ReportsService {
 
     const mostUsedIngredients = Object.entries(ingredientUsage)
       .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count); // `count` is now properly typed
+      .sort((a, b) => b.count - a.count); 
 
     return { avgPrepTimeByRecipe, mostUsedIngredients };
   }

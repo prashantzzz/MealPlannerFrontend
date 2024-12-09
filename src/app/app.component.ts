@@ -15,6 +15,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'MealPlanner';
   isAuthenticated: boolean = false;
+  menuOpen: boolean = false; // Tracks if the mobile menu is open
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -24,11 +25,15 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    this.checkAuthentication(); // Update authentication status
-    this.router.navigate(['/login']); // Redirect to login page
+    this.checkAuthentication();
+    this.router.navigate(['/login']);
   }
 
   checkAuthentication(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
+  }
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen; // Toggle the menu open state
   }
 }

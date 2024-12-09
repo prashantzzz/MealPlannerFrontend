@@ -19,13 +19,22 @@ export class ReportComponent implements OnInit {
   
   generateReports(): void {
     this.reportsService.fetchReports().subscribe((data) => {
-      this.reports = data;
-      this.reports.recipePopularity = this.reports.recipePopularity.map((recipe: any) => ({
+      const recipes = data.recipes.data; // Adjust based on your API structure
+      const reviews = data.reviews.data;
+  
+      const recipePopularity = this.reportsService.processRecipePopularity(recipes, reviews).map((recipe: any) => ({
         ...recipe,
         formattedAverageRating: recipe.averageRating.toFixed(1), // Keep one decimal point
       }));
+  
+      this.reports = {
+        ...data,
+        recipePopularity,
+      };
     });
   }
+  
+  
 
   get objectKeys() {
     return Object.keys;
