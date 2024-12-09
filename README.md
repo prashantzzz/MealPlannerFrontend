@@ -1,27 +1,108 @@
-# MealPlanner
+# MealPlanner Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.9.
+This repository contains the Angular frontend for the **MealPlanner** project, designed to help users plan meals, manage dietary preferences, track shopping lists, and generate reports. The application is built using Angular and communicates with a backend API for data storage and authentication.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. **Recipes:**
+   - Users can browse and search for recipes.
+   - View detailed information about each recipe.
+   - Option to add selected recipes to meal plans or shopping lists.
 
-## Code scaffolding
+2. **Meal Plans:**
+   - Create and view personalized meal plans.
+   - Modify existing meal plans by adding or removing recipes.
+   - Sync meal plans with dietary preferences.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+3. **Preferences:**
+   - Manage dietary preferences based on the user's role.
+   - **Customers**: Add and view personal dietary preferences.
+   - **Admin, Nutritionist, or Meal Planner roles**: View preferences of all users.
 
-## Build
+4. **Shopping List:**
+   - Generate and manage a shopping list based on meal plans.
+   - Add or remove items manually.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+5. **Reports:**
+   - Generate reports for meal plans, preferences, and other relevant data.
+   - Role-based reports for admins, meal planners, and nutritionists.
 
-## Running unit tests
+6. **Authentication:**
+   - Login and signup functionality with JWT-based authentication.
+   - Role-based access to various features:
+     - **Customer**: Limited to personal meal plans and preferences.
+     - **Admin, Nutritionist, Meal Planner**: Access to manage and view data for all users.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## Getting Started
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Prerequisites
+Ensure the following are installed on your system:
+- **Node.js** (v16 or above)
+- **Angular CLI** (v15 or above)
 
-## Further help
+### Clone the Repository
+```bash
+git clone https://github.com/your-repo/mealplanner-frontend.git
+cd mealplanner-frontend
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Install Dependencies
+```bash
+npm install
+```
+
+### Configure Environment
+Update the `src/environments/environment.ts` file with the API URL:
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'https://localhost:7081/api',
+};
+```
+
+### Run the Application
+```bash
+ng serve
+```
+Visit [http://localhost:4200](http://localhost:4200) in your browser to access the application.
+
+---
+
+## File Structure
+- **`src/app/`**: Contains all the Angular components and services.
+  - **`recipes/`**: Handles recipe browsing and management.
+  - **`meal-plans/`**: Manages meal plan creation and viewing.
+  - **`preferences/`**: Handles user and role-based dietary preferences.
+  - **`shopping-list/`**: Manages shopping list items.
+  - **`reports/`**: Generates and displays reports.
+  - **`auth/`**: Authentication components and services.
+
+---
+
+## Deployment
+1. Build the project:
+   ```bash
+   ng build --prod
+   ```
+2. Deploy the `dist/` directory to your preferred hosting service.
+
+---
+
+## Important Notes
+- **Authentication Roles**: Ensure the backend roles are correctly mapped to frontend features.
+- **CORS**: The backend must allow requests from the frontend's origin.
+- **API Documentation**: Refer to the backend API documentation for endpoints and request details.
+
+---
+
+## Contributing
+Feel free to submit issues or pull requests for bug fixes or new features.
+
+---
+
+
+---
+
+Enjoy using the MealPlanner application! 🎉
