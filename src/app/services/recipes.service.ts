@@ -22,6 +22,12 @@ export class RecipesService {
       .pipe(catchError(this.handleError));
   }
 
+  getReviewsForRecipe(recipeId: number): Observable<any> {
+    const url = `https://localhost:7081/api/reviews/recipe/${recipeId}`;
+    return this.http.get(url, { headers: this.getAuthHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
   getRecipeById(id: number): Observable<any> {
     return this.http
       .get(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() })

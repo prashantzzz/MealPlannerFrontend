@@ -13,10 +13,9 @@ import {FormsModule} from '@angular/forms';
 })
 
 export class RecipeComponent implements OnInit {
-  title='Recipe';
+  title = 'Recipe';
   recipes: any[] = [];
   userRole: string | null = null;
-
   recipeForm: any = {
     name: '',
     category: '',
@@ -26,8 +25,11 @@ export class RecipeComponent implements OnInit {
     servings: 0,
     nutritionalInfo: ''
   };
-
   editingRecipe: any = null;
+  reviews: any[] = [];
+  showReviews: boolean = false;
+  currentRecipeId: number | null = null;
+  reviewVisibility: { [key: number]: boolean } = {};
 
   constructor(private recipesService: RecipesService, private authService: AuthService) {}
 
@@ -39,7 +41,6 @@ export class RecipeComponent implements OnInit {
   loadRecipes(): void {
     this.recipesService.getAllRecipes().subscribe({
       next: (response) => {
-        // Assign a temporary RecipeId to each recipe
         this.recipes = response.data.map((recipe: any, index: number) => ({
           RecipeId: index + 1, // Generate RecipeId as 1-based index
           ...recipe
@@ -48,8 +49,24 @@ export class RecipeComponent implements OnInit {
       error: (err) => console.error(err),
     });
   }
-  
-  
+
+  showRecipeReviews(recipeId: number): void {
+    // Toggle visibility
+    if (this.reviewVisibility[recipeId]) {
+      // Hide reviews if currently visible
+      this.reviewVisibility[recipeId] = false;
+      this.reviews = [];
+    } else {
+      // Show reviews
+      this.reviewVisibility[recipeId] = true;
+      this.recipesService.getReviewsForRecipe(recipeId).subscribe({
+        next: (response) => {
+          this.reviews = response.data;
+        },
+        error: (err) => console.error('Error fetching reviews:', err),
+      });
+    }
+  }
 
   onSubmit(): void {
     if (this.editingRecipe) {
@@ -103,5 +120,7 @@ export class RecipeComponent implements OnInit {
       nutritionalInfo: ''
     };
     this.editingRecipe = null;
+    this.showReviews = false;
+    this.reviews = [];
   }
 }
