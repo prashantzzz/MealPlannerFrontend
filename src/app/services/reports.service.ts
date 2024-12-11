@@ -57,6 +57,13 @@ export class ReportsService {
       totalRating: number;
     }
   
+    // Map recipes to include unique IDs
+    const recipesWithId = recipes.map((recipe, index) => ({
+      ...recipe,
+      recipeId: index + 1, // Assign serial number as recipeId
+    }));
+  
+    // Aggregate reviews by recipeId
     const recipeReviews: Record<number, ReviewData> = reviews.reduce((acc: Record<number, ReviewData>, review: any) => {
       if (!acc[review.recipeId]) {
         acc[review.recipeId] = { totalReviews: 0, totalRating: 0 };
@@ -66,18 +73,17 @@ export class ReportsService {
       return acc;
     }, {});
   
-    return recipes
-      .filter(recipe => recipeReviews[recipe.recipeId])
+    // Process popularity data
+    return recipesWithId
+      .filter(recipe => recipeReviews[recipe.recipeId]) // Filter recipes with reviews
       .map(recipe => ({
         name: recipe.name,
         totalReviews: recipeReviews[recipe.recipeId].totalReviews,
         averageRating: recipeReviews[recipe.recipeId].totalRating / recipeReviews[recipe.recipeId].totalReviews,
       }))
-      .sort((a, b) => b.averageRating - a.averageRating);
+      .sort((a, b) => b.averageRating - a.averageRating); // Sort by average rating
   }
   
-  
-
   private processMealPlanUtilization(mealPlans: any[]): any {
     const totalMealPlans = mealPlans.length;
     const activeMealPlans = mealPlans.filter(mp => {
@@ -94,7 +100,7 @@ export class ReportsService {
   private processShoppingListStatus(shoppingLists: any[]): any {
     const totalIngredients = shoppingLists.length;
     const pendingItems = shoppingLists.filter(item => item.status === 'Pending').length;
-    const completedItems = shoppingLists.filter(item => item.status === 'Completed').length;
+    const completedItems = shoppingLists.filter(item => item.status === 'Purchased').length;
 
     return { totalIngredients, pendingItems, completedItems };
   }
@@ -129,7 +135,8 @@ export class ReportsService {
 
     const mostUsedIngredients = Object.entries(ingredientUsage)
       .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count); 
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10); 
 
     return { avgPrepTimeByRecipe, mostUsedIngredients };
   }
