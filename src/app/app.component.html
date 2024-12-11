@@ -7,10 +7,10 @@
         </div>
   
         <!-- Desktop Menu -->
-        <div class="hidden md:flex items-center gap-8">
-          <a routerLink="/recipes" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Recipies</a>
+        <div class="hidden md:flex items-center gap-8" *ngIf="isAuthenticated">
+          <a routerLink="/recipes" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Recipes</a>
           <a routerLink="/mealplan" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">MealPlans</a>
-          <a routerLink="/preferences" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Preference</a>
+          <a routerLink="/preferences" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Preferences</a>
           <a routerLink="/shoppinglist" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">ShoppingList</a>
           <a routerLink="/reports" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Report</a>
         </div>
@@ -35,16 +35,15 @@
       </div>
   
       <!-- Mobile Menu -->
-      <div *ngIf="menuOpen" class="bg-emerald-50 py-4 px-6 md:hidden">
-        <a routerLink="/recipes" routerLinkActive="active" class="block text-gray-500 hover:text-emerald-700 mb-2">Recipies</a>
+      <div *ngIf="menuOpen && isAuthenticated" class="bg-emerald-50 py-4 px-6 md:hidden">
+        <a routerLink="/recipes" routerLinkActive="active" class="block text-gray-500 hover:text-emerald-700 mb-2">Recipes</a>
         <a routerLink="/mealplan" routerLinkActive="active" class="block text-gray-500 hover:text-emerald-700 mb-2">MealPlans</a>
-        <a routerLink="/preferences" routerLinkActive="active" class="block text-gray-500 hover:text-emerald-700 mb-2">Preference</a>
+        <a routerLink="/preferences" routerLinkActive="active" class="block text-gray-500 hover:text-emerald-700 mb-2">Preferences</a>
         <a routerLink="/shoppinglist" routerLinkActive="active" class="block text-gray-500 hover:text-emerald-700 mb-2">ShoppingList</a>
         <a routerLink="/reports" routerLinkActive="active" class="block text-gray-500 hover:text-emerald-700">Report</a>
       </div>
     </nav>
-  </header>
-  
+  </header>  
 
   <main>
     <router-outlet></router-outlet>

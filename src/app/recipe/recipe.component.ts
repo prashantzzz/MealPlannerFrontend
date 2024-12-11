@@ -69,7 +69,7 @@ export class RecipeComponent implements OnInit {
 
   onSubmit(): void {
     if (this.editingRecipe) {
-      // Update existing recipe
+      // updateing existing recipe
       this.recipesService.updateRecipe(this.editingRecipe.id, this.recipeForm).subscribe({
         next: () => {
           alert('Recipe updated successfully');

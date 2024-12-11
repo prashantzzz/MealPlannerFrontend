@@ -16,6 +16,16 @@ export class ReportsService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
+  // Method to delete all reports
+  deleteAllReports(): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/report`, { headers: this.getHeaders() });
+  }
+
+  // Method to generate a single report row
+  generateReport(reportData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/report`, reportData, { headers: this.getHeaders() });
+  }
+
   fetchReports(): Observable<any> {
     return forkJoin({
       users: this.http.get<any>(`${this.apiUrl}/users`, { headers: this.getHeaders() }),
@@ -39,10 +49,10 @@ export class ReportsService {
     );
   }
 
+  // Process each section of the report
   private processUserStatistics(users: any[]): any {
     const totalUsers = users.length;
     const activeUsers = users.filter(user => user.isActive).length;
-
     const roles = users.reduce((acc: any, user) => {
       acc[user.role] = (acc[user.role] || 0) + 1;
       return acc;
@@ -56,13 +66,13 @@ export class ReportsService {
       totalReviews: number;
       totalRating: number;
     }
-  
+
     // Map recipes to include unique IDs
     const recipesWithId = recipes.map((recipe, index) => ({
       ...recipe,
       recipeId: index + 1, // Assign serial number as recipeId
     }));
-  
+
     // Aggregate reviews by recipeId
     const recipeReviews: Record<number, ReviewData> = reviews.reduce((acc: Record<number, ReviewData>, review: any) => {
       if (!acc[review.recipeId]) {
@@ -72,7 +82,7 @@ export class ReportsService {
       acc[review.recipeId].totalRating += review.rating;
       return acc;
     }, {});
-  
+
     // Process popularity data
     return recipesWithId
       .filter(recipe => recipeReviews[recipe.recipeId]) // Filter recipes with reviews
@@ -83,7 +93,7 @@ export class ReportsService {
       }))
       .sort((a, b) => b.averageRating - a.averageRating); // Sort by average rating
   }
-  
+
   private processMealPlanUtilization(mealPlans: any[]): any {
     const totalMealPlans = mealPlans.length;
     const activeMealPlans = mealPlans.filter(mp => {
