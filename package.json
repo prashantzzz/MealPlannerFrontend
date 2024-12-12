@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^18.2.0",
+    "@angular/common": "^18.2.13",
     "@angular/compiler": "^18.2.0",
     "@angular/core": "^18.2.0",
     "@angular/forms": "^18.2.0",
@@ -21,7 +21,9 @@
     "@angular/router": "^18.2.0",
     "@angular/ssr": "^18.2.9",
     "@auth0/angular-jwt": "^5.2.0",
+    "chart.js": "^4.4.7",
     "express": "^4.18.2",
+    "ng2-charts": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
