@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RecipesService } from '../services/recipes.service';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './recipe.component.html',
-  styleUrl: './recipe.component.css'
+  styleUrls: ['./recipe.component.css']
 })
 
 export class RecipeComponent implements OnInit {
@@ -48,7 +48,10 @@ export class RecipeComponent implements OnInit {
           ...recipe
         }));
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        this.toastr.error('Error loading recipes', 'Error');
+        console.error(err);
+      },
     });
   }
 
@@ -64,31 +67,40 @@ export class RecipeComponent implements OnInit {
           this.reviews = response.data;
           console.log(this.reviews);
         },
-        error: (err) => console.error('Error fetching reviews:', err),
+        error: (err) => {
+          this.toastr.error('Error fetching reviews', 'Error');
+          console.error('Error fetching reviews:', err);
+        },
       });
     }
   }
 
   onSubmit(): void {
     if (this.editingRecipe) {
-      // updateing existing recipe
+      // Updating existing recipe
       this.recipesService.updateRecipe(this.editingRecipe.id, this.recipeForm).subscribe({
         next: () => {
-          alert('Recipe updated successfully');
+          this.toastr.success('Recipe updated successfully', 'Success');
           this.loadRecipes();
           this.resetForm();
         },
-        error: (err) => console.error(err)
+        error: (err) => {
+          this.toastr.error('Error updating recipe', 'Error');
+          console.error(err);
+        }
       });
     } else {
-      // Create new recipe
+      // Creating new recipe
       this.recipesService.createRecipe(this.recipeForm).subscribe({
         next: () => {
-          alert('Recipe created successfully');
+          this.toastr.success('Recipe created successfully', 'Success');
           this.loadRecipes();
           this.resetForm();
         },
-        error: (err) => console.error(err)
+        error: (err) => {
+          this.toastr.error('Error creating recipe', 'Error');
+          console.error(err);
+        }
       });
     }
   }
@@ -102,10 +114,13 @@ export class RecipeComponent implements OnInit {
     if (confirm('Are you sure you want to delete this recipe?')) {
       this.recipesService.deleteRecipe(id).subscribe({
         next: () => {
-          alert('Recipe deleted successfully');
+          this.toastr.success('Recipe deleted successfully', 'Success');
           this.loadRecipes();
         },
-        error: (err) => console.error(err)
+        error: (err) => {
+          this.toastr.error('Error deleting recipe', 'Error');
+          console.error(err);
+        }
       });
     }
   }
