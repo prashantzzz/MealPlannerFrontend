@@ -12,7 +12,7 @@
           <a routerLink="/mealplan" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">MealPlans</a>
           <a routerLink="/preferences" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Preferences</a>
           <a routerLink="/shoppinglist" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">ShoppingList</a>
-          <a routerLink="/reports" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700">Report</a>
+          <a routerLink="/reports" routerLinkActive="active" class="text-gray-500 hover:text-emerald-700" *ngIf="isAdmin">Report</a>
         </div>
   
         <!-- Mobile Menu Toggle -->

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { catchError } from 'rxjs/operators';
 export class RecipesService {
   private baseUrl = 'https://localhost:7081/api/recipes';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -55,8 +56,10 @@ export class RecipesService {
   }
 
   private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
-    alert('Request failed: ' + (error.error?.message || error.message));
-    throw error;
+    this.toastr.error(
+      error.error?.message || error.message || 'An unexpected error occurred.',
+      'Error'
+    );
+    return throwError(() => error);
   }
 }

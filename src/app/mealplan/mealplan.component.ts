@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-mealprep',
@@ -20,7 +21,7 @@ export class MealplanComponent implements OnInit {
     recipeId: null,
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getMealPlans();
@@ -40,8 +41,11 @@ export class MealplanComponent implements OnInit {
     this.http.get<{ message: string; data: any[] }>(this.apiUrl, { headers }).subscribe({
       next: (response) => {
         this.mealPlans = response.data;
+        this.toastr.success('Meal plans loaded successfully!', 'Success');
       },
-      error: () => alert('Error fetching meal plans'),
+      error: () => {
+        this.toastr.error('Error fetching meal plans', 'Error');
+      },
     });
   }
 
@@ -58,10 +62,22 @@ export class MealplanComponent implements OnInit {
 
     this.http.post(this.apiUrl, this.newMealPlan, { headers }).subscribe({
       next: () => {
-        alert('Meal plan created successfully');
+        this.toastr.success('Meal plan created successfully', 'Success');
         this.getMealPlans(); // Refresh meal plans
+        this.resetForm();
       },
-      error: () => alert('Error creating meal plan'),
+      error: () => {
+        this.toastr.error('Error creating meal plan', 'Error');
+      },
     });
+  }
+
+  resetForm(): void {
+    this.newMealPlan = {
+      startDate: '',
+      endDate: '',
+      mealType: '',
+      recipeId: null,
+    };
   }
 }

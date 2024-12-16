@@ -1,54 +1,73 @@
 <div class="shoppinglist-container p-10 pt-24 px-24 mx-auto">
-    <h2 class="text-xl font-bold mb-4">Shopping List</h2>
-    <div *ngIf="loading">Loading...</div>
-  
-    <div *ngIf="!loading && shoppingList.length === 0">
-      <p>No recipes found in your meal plans.</p>
-    </div>
-  
-    <div *ngIf="!loading && shoppingList.length > 0">
-      <table class="table-auto w-full border">
-        <thead>
-          <tr class="bg-gray-200">
-            <th class="border px-4 py-2">Recipe Name</th>
-            <th class="border px-4 py-2">Ingredient</th>
-            <th class="border px-4 py-2">Bought</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Loop through recipes -->
-          <ng-container *ngFor="let recipe of shoppingList">
-            <tr>
-              <td class="border px-4 py-2" [attr.rowspan]="recipe.ingredients.length">
-                {{ recipe.recipeName }}
-              </td>
-              <td class="border px-4 py-2">
-                {{ recipe.ingredients[0].name }}
-              </td>
-              <td class="border px-4 py-2">
-                <input
-                  type="checkbox"
-                  [checked]="recipe.ingredients[0].bought"
-                  (change)="toggleBought(recipe.recipeId, recipe.ingredients[0].name)"
-                />
-              </td>
-            </tr>
-            <!-- Display subsequent rows for the ingredients -->
-            <tr *ngFor="let ingredient of recipe.ingredients.slice(1)">
-              <td class="border px-4 py-2">
-                {{ ingredient.name }}
-              </td>
-              <td class="border px-4 py-2">
-                <input
-                  type="checkbox"
-                  [checked]="ingredient.bought"
-                  (change)="toggleBought(recipe.recipeId, ingredient.name)"
-                />
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-    </div>
+  <h2 class="text-xl font-bold mb-4">Shopping List</h2>
+  <div *ngIf="loading">Loading...</div>
+
+  <div *ngIf="!loading && shoppingList.length === 0">
+    <p>No recipes found in your meal plans.</p>
   </div>
-  
+
+  <div *ngIf="!loading && shoppingList.length > 0">
+    <table class="table-auto w-full border border-emerald-500 rounded-lg shadow-md overflow-hidden">
+      <thead class="bg-gradient-to-r from-emerald-500 to-emerald-700 text-white">
+        <tr>
+          <th class="border border-emerald-500 px-3 py-3 text-sm font-semibold uppercase tracking-wide">
+            Recipe Name
+          </th>
+          <th class="border border-emerald-500 px-3 py-3 text-sm font-semibold uppercase tracking-wide">
+            Ingredient
+          </th>
+          <th class="border border-emerald-500 px-3 py-3 text-sm font-semibold uppercase tracking-wide">
+            Bought
+          </th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-600 bg-white divide-y divide-emerald-200">
+        <ng-container *ngFor="let recipe of shoppingList">
+          <tr class="hover:bg-emerald-50">
+            <td class="border border-emerald-500 px-3 py-4 text-lg font-medium text-gray-800 align-top bg-emerald-50"
+              [attr.rowspan]="recipe.ingredients.length">
+              {{ recipe.recipeName }}
+            </td>
+            <td class="border border-emerald-500 px-3 py-4 text-sm">{{ recipe.ingredients[0].name }}</td>
+            <td class="border border-emerald-500 px-3 py-4 text-center">
+              <label class="flex items-center justify-center">
+                <input type="checkbox" class="hidden peer" [checked]="recipe.ingredients[0].bought"
+                  (change)="toggleBought(recipe.recipeId, recipe.ingredients[0].name)" />
+                <div
+                  class="w-5 h-5 rounded-md bg-gray-200 border border-emerald-500 shadow-sm flex items-center justify-center 
+                                peer-checked:bg-emerald-500 peer-checked:border-emerald-700 transition-all duration-200">
+                  <svg *ngIf="recipe.ingredients[0].bought" xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </label>
+            </td>
+          </tr>
+          <tr *ngFor="let ingredient of recipe.ingredients.slice(1)" class="hover:bg-emerald-50">
+            <td class="border border-emerald-500 px-3 py-4 text-sm">{{ ingredient.name }}</td>
+            <td class="border border-emerald-500 px-3 py-4 text-center">
+              <label class="flex items-center justify-center">
+                <input type="checkbox" class="hidden peer" [checked]="ingredient.bought"
+                  (change)="toggleBought(recipe.recipeId, ingredient.name)" />
+                <div
+                  class="w-5 h-5 rounded-md bg-gray-200 border border-emerald-500 shadow-sm flex items-center justify-center 
+                                peer-checked:bg-emerald-500 peer-checked:border-emerald-700 transition-all duration-200">
+                  <svg *ngIf="ingredient.bought" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white"
+                    viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </label>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+  </div>
+</div>

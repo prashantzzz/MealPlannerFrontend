@@ -4,7 +4,8 @@ import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms'; // For two-way binding
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { AppComponent } from '../app.component';  //to access checkAuthentication
+import { AppComponent } from '../app.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService, 
     private router: Router,
-    private appComponent: AppComponent // Inject AppComponent
+    private appComponent: AppComponent,
+    private toastr: ToastrService
   ) {}
 
   /**
@@ -41,9 +43,13 @@ export class LoginComponent {
         localStorage.setItem('role', token.role);   // Store role
         localStorage.setItem('username', token.username); //store username
         this.appComponent.checkAuthentication();    // Update UI state
+        this.toastr.success('Logged in successfully!', 'Success'); // Success toastr
         this.router.navigate(['/dashboard']);       // Navigate to dashboard
       },
-      error: () => alert('Invalid credentials')
+      error: (error) => {
+        this.toastr.error(error.error?.message || error.message || 'An unexpected error occurred.',
+          'Error'); // Error toastr
+      }
     });
   }
   

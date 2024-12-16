@@ -3,6 +3,7 @@ import { MealplansService } from '../services/mealplans.service';
 import { RecipesService } from '../services/recipes.service';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shoppinglist',
@@ -17,7 +18,8 @@ export class ShoppinglistComponent implements OnInit {
 
   constructor(
     private mealplansService: MealplansService,
-    private recipesService: RecipesService
+    private recipesService: RecipesService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +31,7 @@ export class ShoppinglistComponent implements OnInit {
 
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('User not authenticated');
+      this.toastr.error('User not authenticated', 'Error');
       this.loading = false;
       return;
     }
@@ -40,7 +42,7 @@ export class ShoppinglistComponent implements OnInit {
         this.fetchIngredientsForRecipes(recipeIds);
       },
       error: () => {
-        alert('Error fetching meal plans');
+        this.toastr.error('No meal plan assigned!', 'Error');
         this.loading = false;
       },
     });
@@ -61,7 +63,9 @@ export class ShoppinglistComponent implements OnInit {
             .map((ing: string) => ({ name: ing.trim(), bought: false })),
         }));
       })
-      .catch(() => alert('Error fetching ingredients'))
+      .catch(() => {
+        this.toastr.error('Error fetching ingredients', 'Error');
+      })
       .finally(() => (this.loading = false));
   }
 

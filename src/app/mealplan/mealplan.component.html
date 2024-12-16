@@ -2,26 +2,26 @@
   <h2 class="text-xl font-bold mb-4">Meal Plans</h2>
 
   <div *ngIf="mealPlans">
-    <table class="table-auto w-full border">
-      <thead>
-        <tr class="bg-gray-200">
-          <th class="border px-4 py-2">Meal Plan ID</th>
-          <th class="border px-4 py-2">Meal Type</th>
-          <th class="border px-4 py-2">Start Date</th>
-          <th class="border px-4 py-2">End Date</th>
-          <th class="border px-4 py-2">Recipe ID</th>
-        </tr>
+    <table class="table-auto w-full border border-emerald-500">
+      <thead class="bg-gradient-to-r from-emerald-500 to-emerald-700 text-white">
+          <tr>
+              <th class="border border-emerald-500 px-4 py-2 text-md font-medium">Meal Plan ID</th>
+              <th class="border border-emerald-500 px-4 py-2 text-md font-medium">Meal Type</th>
+              <th class="border border-emerald-500 px-4 py-2 text-md font-medium">Start Date</th>
+              <th class="border border-emerald-500 px-4 py-2 text-md font-medium">End Date</th>
+              <th class="border border-emerald-500 px-4 py-2 text-md font-medium">Recipe ID</th>
+          </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let plan of mealPlans">
-          <td class="border px-4 py-2">{{ plan.mealPlanId }}</td>
-          <td class="border px-4 py-2">{{ plan.mealType }}</td>
-          <td class="border px-4 py-2">{{ plan.startDate }}</td>
-          <td class="border px-4 py-2">{{ plan.endDate }}</td>
-          <td class="border px-4 py-2">{{ plan.recipeId }}</td>
-        </tr>
+      <tbody class="text-gray-600">
+          <tr *ngFor="let plan of mealPlans" class="border-b border-emerald-500">
+              <td class="border border-emerald-500 px-4 py-2 text-md">{{ plan.mealPlanId }}</td>
+              <td class="border border-emerald-500 px-4 py-2 text-md">{{ plan.mealType }}</td>
+              <td class="border border-emerald-500 px-4 py-2 text-md">{{ plan.startDate }}</td>
+              <td class="border border-emerald-500 px-4 py-2 text-md">{{ plan.endDate }}</td>
+              <td class="border border-emerald-500 px-4 py-2 text-md">{{ plan.recipeId }}</td>
+          </tr>
       </tbody>
-    </table>
+  </table>
 
     <h3 class="text-lg font-bold mt-6">Add Meal Plan</h3>
     <form (ngSubmit)="createMealPlan()" class="space-y-4 mt-4">

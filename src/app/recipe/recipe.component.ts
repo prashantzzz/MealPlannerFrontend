@@ -3,6 +3,7 @@ import { RecipesService } from '../services/recipes.service';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recipe',
@@ -31,7 +32,8 @@ export class RecipeComponent implements OnInit {
   currentRecipeId: number | null = null;
   reviewVisibility: { [key: number]: boolean } = {};
 
-  constructor(private recipesService: RecipesService, private authService: AuthService) {}
+  constructor(private recipesService: RecipesService, private authService: AuthService,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.userRole = this.authService.getRole();

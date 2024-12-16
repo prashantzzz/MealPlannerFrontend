@@ -15,18 +15,25 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'MealPlanner';
   isAuthenticated: boolean = false;
-  menuOpen: boolean = false; // Tracks if the mobile menu is open
+  isAdmin: boolean = false;
+  menuOpen: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.checkAuthentication();
+    this.checkAdminRole();
   }
 
   logout(): void {
     this.authService.logout();
     this.checkAuthentication();
     this.router.navigate(['/login']);
+  }
+
+  checkAdminRole(): void {
+    const role = this.authService.getRole();
+    this.isAdmin = role === 'Admin';
   }
 
   checkAuthentication(): void {

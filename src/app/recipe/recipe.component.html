@@ -1,116 +1,75 @@
 <div class="container mx-auto p-10 px-24 pt-24">
-  <!-- <h2 class="text-2xl text-gray-800 font-bold mb-4">Recipes</h2> -->
-
-  <!-- Recipe Form for userRole === 'Admin' || userRole === 'Chef' || userRole === 'Nutritionist' -->
-  <div *ngIf="userRole === 'Admin' || userRole === 'Chef' || userRole === 'Nutritionist'" class="mb-8">
-    <h3 class="text-xl  text-gray-800 font-semibold mb-2">{{ editingRecipe ? 'Edit Recipe' : 'Create Recipe' }}</h3>
-    <form (ngSubmit)="onSubmit()">
-      <div class="mb-4">
-        <label for="name" class="block text-sm font-medium">Name</label>
-        <input [(ngModel)]="recipeForm.name" id="name" name="name" class="w-full border rounded p-2" required />
-      </div>
-      <div class="mb-4">
-        <label for="category" class="block text-sm font-medium">Category</label>
-        <input [(ngModel)]="recipeForm.category" id="category" name="category" class="w-full border rounded p-2" />
-      </div>
-      <div class="mb-4">
-        <label for="ingredients" class="block text-sm font-medium">Ingredients</label>
-        <textarea [(ngModel)]="recipeForm.ingredients" id="ingredients" name="ingredients"
-          class="w-full border rounded p-2"></textarea>
-      </div>
-      <div class="mb-4">
-        <label for="preparationSteps" class="block text-sm font-medium">Preparation Steps</label>
-        <input [(ngModel)]="recipeForm.preparationSteps" id="preparationSteps" name="preparationSteps" type="number"
-          class="w-full border rounded p-2" />
-      </div>
-      <div class="mb-4">
-        <label for="cookingTime" class="block text-sm font-medium">Cooking Time (minutes)</label>
-        <input [(ngModel)]="recipeForm.cookingTime" id="cookingTime" name="cookingTime" type="number"
-          class="w-full border rounded p-2" />
-      </div>
-      <div class="mb-4">
-        <label for="servings" class="block text-sm font-medium">Servings</label>
-        <input [(ngModel)]="recipeForm.servings" id="servings" name="servings" type="number"
-          class="w-full border rounded p-2" />
-      </div>
-      <div class="mb-4">
-        <label for="nutritionalInfo" class="block text-sm font-medium">Nutritional Info</label>
-        <textarea [(ngModel)]="recipeForm.nutritionalInfo" id="nutritionalInfo" name="nutritionalInfo"
-          class="w-full border rounded p-2"></textarea>
-      </div>
-      <button type="submit" class="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-700">
-        {{ editingRecipe ? 'Update Recipe' : 'Create Recipe' }}
-      </button>
-    </form>
-  </div>
-
   <!-- Recipe List -->
   <div *ngIf="recipes.length > 0; else noRecipes" class="text-gray-800">
-    <div *ngFor="let recipe of recipes"
-      class="recipe-card p-6 bg-white border border-gray-200 shadow-md rounded-lg hover:shadow-lg transition mb-6">
-      <!-- Recipe Title -->
-      <h2 class="font-bold text-2xl text-emerald-700 border-b border-gray-200 pb-2 mb-4 flex items-center">
-        <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full mr-2 text-sm">
-          #{{ recipe.RecipeId }}
-        </span>
-        {{ recipe.name }}
-      </h2>
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div *ngFor="let recipe of recipes"
+        class="recipe-card p-6 bg-white border border-gray-200 shadow-md rounded-lg hover:shadow-lg transition">
+        <!-- Recipe Title -->
+        <h2
+          class="font-bold text-2xl text-white bg-gradient-to-r from-emerald-500 to-emerald-700 rounded-t-lg py-3 px-4 -my-4 -mx-4 mb-4 flex items-center shadow-md">
+          <span class="bg-white text-emerald-700 px-3 py-1 rounded-full mr-3 text-sm font-medium shadow-sm">
+            #{{ recipe.RecipeId }}
+          </span>
+          {{ recipe.name }}
+        </h2>
 
-      <!-- Recipe Details -->
-      <div class="space-y-3 text-sm text-gray-600 relative">
-        <p><span class="font-semibold text-gray-800">Category:</span> {{ recipe.category }}</p>
-        <p><span class="font-semibold text-gray-800">Cooking Time:</span> {{ recipe.cookingTime }} minutes</p>
-        <p><span class="font-semibold text-gray-800">Preparation Steps:</span> {{ recipe.preparationSteps }}</p>
-        <p><span class="font-semibold text-gray-800">Servings:</span> {{ recipe.servings }}</p>
-        <p><span class="font-semibold text-gray-800">Ingredients:</span></p>
-        <ul class="list-disc list-inside pl-4">
-          <li *ngFor="let ingredient of recipe.ingredients.split(',')">
-            {{ ingredient.trim() }}
-          </li>
-        </ul>
-        <p><span class="font-semibold text-gray-800">Nutritional Info:</span> {{ recipe.nutritionalInfo }}</p>
+        <!-- Recipe Details -->
+        <div class="space-y-3 text-sm text-gray-600 relative">
+          <p><span class="font-semibold text-gray-800">Category:</span> {{ recipe.category }}</p>
+          <p><span class="font-semibold text-gray-800">Cooking Time:</span> {{ recipe.cookingTime }} minutes</p>
+          <p><span class="font-semibold text-gray-800">Preparation Steps:</span> {{ recipe.preparationSteps }}</p>
+          <p><span class="font-semibold text-gray-800">Servings:</span> {{ recipe.servings }}</p>
+          <p><span class="font-semibold text-gray-800">Ingredients:</span></p>
+          <ul class="list-disc list-inside pl-4">
+            <li *ngFor="let ingredient of recipe.ingredients.split(',')">
+              {{ ingredient.trim() }}
+            </li>
+          </ul>
+          <p><span class="font-semibold text-gray-800">Nutritional Info:</span> {{ recipe.nutritionalInfo }}</p>
 
-        <!-- Admin/Chef/Nutritionist Actions -->
-        <div class="absolute top-0 right-0 flex flex-col space-y-2">
-          <button *ngIf="userRole === 'Admin' || userRole === 'Chef' || userRole === 'Nutritionist'"
-            class="bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-700" (click)="editRecipe(recipe)">
-            Edit
-          </button>
-          <button *ngIf="userRole === 'Admin' || userRole === 'Chef' || userRole === 'Nutritionist'"
-            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700" (click)="deleteRecipe(recipe.RecipeId)">
-            Delete
-          </button>
-          <button class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700"
-            (click)="showRecipeReviews(recipe.RecipeId)">
-            {{ reviewVisibility[recipe.RecipeId] ? 'Hide Reviews' : 'Show Reviews' }}
-          </button>
-        </div>
-      </div>
-
-      <!-- Reviews Section -->
-      <div *ngIf="reviewVisibility[recipe.RecipeId]" class="mt-4">
-        <h4 class="text-lg font-bold mb-2">User Reviews:</h4>
-        <div *ngIf="reviews.length > 0; else noReviews">
-          <div *ngFor="let review of reviews" class="border border-gray-300 p-4 rounded-lg mb-2">
-            <p>
-              <span class="bg-emerald-100 font-bold text-emerald-700 px-2 py-1 rounded-full -ml-1 mr-2 text-sm">
-                User {{review.userId}}
-              </span>
-              <span class="text-gray-500 text-sm">{{ review.reviewDate | date }}</span>
-              
-              <div></div>
-            <span class="font-semibold">Rating:</span> 
-              {{ review.rating }} 
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -mt-1 -ml-0.5 inline text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 .587l3.668 7.431 8.2 1.191-5.934 5.787 1.4 8.178L12 18.897l-7.334 3.852 1.4-8.178L.132 9.209l8.2-1.191L12 .587z" />
-              </svg>
-            <p><span class="font-semibold">Review:</span> {{ review.reviewText }}</p>
-            <p class="text-gray-500 text-sm">{{ review.reviewDate | date }}</p>
+          <!-- Admin/Chef/Nutritionist Actions -->
+          <div class="absolute top-0 right-0 flex flex-col space-y-2">
+            <button *ngIf="userRole === 'Admin' || userRole === 'Chef' || userRole === 'Nutritionist'"
+              class="bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-700" (click)="editRecipe(recipe)">
+              Edit
+            </button>
+            <button *ngIf="userRole === 'Admin' || userRole === 'Chef' || userRole === 'Nutritionist'"
+              class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700" (click)="deleteRecipe(recipe.RecipeId)">
+              Delete
+            </button>
+            <button class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700"
+              (click)="showRecipeReviews(recipe.RecipeId)">
+              {{ reviewVisibility[recipe.RecipeId] ? 'Hide Reviews' : 'Show Reviews' }}
+            </button>
           </div>
         </div>
-        <ng-template #noReviews>
-          <p>No reviews available for this recipe.</p>
-        </ng-template>
+
+        <!-- Reviews Section -->
+        <div *ngIf="reviewVisibility[recipe.RecipeId]" class="mt-4">
+          <h4 class="text-lg font-bold mb-2">User Reviews:</h4>
+          <div *ngIf="reviews.length > 0; else noReviews">
+            <div *ngFor="let review of reviews" class="border border-gray-300 p-4 rounded-lg mb-2">
+              <p>
+                <span class="bg-emerald-100 font-bold text-emerald-700 px-2 py-1 rounded-full -ml-1 mr-2 text-sm">
+                  User {{review.userId}}
+                </span>
+                <span class="text-gray-500 text-sm">{{ review.reviewDate | date }}</span>
+              </p>
+              <p><span class="font-semibold">Rating:</span> {{ review.rating }}
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -mt-1 -ml-0.5 inline text-yellow-500"
+                  fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 .587l3.668 7.431 8.2 1.191-5.934 5.787 1.4 8.178L12 18.897l-7.334 3.852 1.4-8.178L.132 9.209l8.2-1.191L12 .587z" />
+                </svg>
+              </p>
+              <p><span class="font-semibold">Review:</span> {{ review.reviewText }}</p>
+            </div>
+          </div>
+          <ng-template #noReviews>
+            <p>No reviews available for this recipe.</p>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>
@@ -121,6 +80,4 @@
       <p class="font-semibold">No recipes available. Please add some!</p>
     </div>
   </ng-template>
-
-
 </div>
