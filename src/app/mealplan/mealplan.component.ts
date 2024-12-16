@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -30,7 +30,7 @@ export class MealplanComponent implements OnInit {
   getMealPlans(): void {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('User not authenticated');
+      this.toastr.error('User not authenticated', 'Error');
       return;
     }
 
@@ -52,7 +52,7 @@ export class MealplanComponent implements OnInit {
   createMealPlan(): void {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('User not authenticated');
+      this.toastr.error('User not authenticated', 'Error');
       return;
     }
 

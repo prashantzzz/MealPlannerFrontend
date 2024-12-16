@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr'; // Import ToastrService
 
 @Component({
   selector: 'app-preference',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './preference.component.html',
-  styleUrl: './preference.component.css'
+  styleUrls: ['./preference.component.css'],
 })
-
-
 export class PreferenceComponent implements OnInit {
   preferences: any[] = [];
   allPreferences: any[] = [];
@@ -23,7 +22,7 @@ export class PreferenceComponent implements OnInit {
   private apiUrl = 'https://localhost:7081/api/dietary-preferences';
   private allPreferencesUrl = 'https://localhost:7081/api/dietary-preferences/all';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.checkUserRole();
@@ -44,14 +43,14 @@ export class PreferenceComponent implements OnInit {
         this.getPreferences(); // Fetch preferences for the customer (logged-in user)
       }
     } else {
-      alert('User not authenticated');
+      this.toastr.error('User not authenticated', 'Error'); // Error toast
     }
   }
 
   getPreferences(): void {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('User not authenticated');
+      this.toastr.error('User not authenticated', 'Error'); // Error toast
       return;
     }
 
@@ -63,14 +62,14 @@ export class PreferenceComponent implements OnInit {
       next: (response) => {
         this.preferences = response.data; // Preferences for the logged-in user
       },
-      error: () => alert('Error fetching dietary preferences'),
+      error: () => this.toastr.error('Error fetching dietary preferences', 'Error'), // Error toast
     });
   }
 
   getAllPreferences(): void {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('User not authenticated');
+      this.toastr.error('User not authenticated', 'Error'); // Error toast
       return;
     }
 
@@ -82,14 +81,14 @@ export class PreferenceComponent implements OnInit {
       next: (response) => {
         this.allPreferences = response.data; // All preferences for Admin, MealPlanner, or Nutritionist
       },
-      error: () => alert('Error fetching all dietary preferences'),
+      error: () => this.toastr.error('Error fetching all dietary preferences', 'Error'), // Error toast
     });
   }
 
   createPreference(): void {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('User not authenticated');
+      this.toastr.error('User not authenticated', 'Error'); // Error toast
       return;
     }
 
@@ -108,13 +107,13 @@ export class PreferenceComponent implements OnInit {
 
     this.http.post<{ message: string }>(this.apiUrl, preference, { headers }).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.toastr.success(response.message, 'Success'); // Success toast
         this.newPreference = { preferenceType: '', description: '' }; // Reset the form
         this.getPreferences(); // Refresh the list after successful creation
       },
       error: (error) => {
         console.error('Error creating preference:', error);
-        alert('Error creating dietary preference');
+        this.toastr.error('Error creating dietary preference', 'Error'); // Error toast
       },
     });
   }
@@ -132,7 +131,7 @@ export class PreferenceComponent implements OnInit {
   onSubmit(): void {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('User not authenticated');
+      this.toastr.error('User not authenticated', 'Error'); // Error toast
       return;
     }
 
@@ -143,16 +142,24 @@ export class PreferenceComponent implements OnInit {
     if (this.isEditMode) {
       this.http
         .put(`${this.apiUrl}/${this.currentPreference.preferenceId}`, this.currentPreference, { headers })
-        .subscribe(() => {
-          this.getPreferences();
-          this.resetForm();
+        .subscribe({
+          next: () => {
+            this.toastr.success('Preference updated successfully', 'Success'); // Success toast
+            this.getPreferences();
+            this.resetForm();
+          },
+          error: () => this.toastr.error('Error updating preference', 'Error'), // Error toast
         });
     } else {
       this.http
         .post(this.apiUrl, this.currentPreference, { headers })
-        .subscribe(() => {
-          this.getPreferences();
-          this.resetForm();
+        .subscribe({
+          next: () => {
+            this.toastr.success('Preference created successfully', 'Success'); // Success toast
+            this.getPreferences();
+            this.resetForm();
+          },
+          error: () => this.toastr.error('Error creating preference', 'Error'), // Error toast
         });
     }
   }
@@ -160,7 +167,7 @@ export class PreferenceComponent implements OnInit {
   deletePreference(id: number): void {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('User not authenticated');
+      this.toastr.error('User not authenticated', 'Error'); // Error toast
       return;
     }
 
@@ -168,8 +175,12 @@ export class PreferenceComponent implements OnInit {
       Authorization: `Bearer ${token}`,
     });
 
-    this.http.delete(`${this.apiUrl}/${id}`, { headers }).subscribe(() => {
-      this.getPreferences();
+    this.http.delete(`${this.apiUrl}/${id}`, { headers }).subscribe({
+      next: () => {
+        this.toastr.success('Preference deleted successfully', 'Success'); // Success toast
+        this.getPreferences();
+      },
+      error: () => this.toastr.error('Error deleting preference', 'Error'), // Error toast
     });
   }
 
