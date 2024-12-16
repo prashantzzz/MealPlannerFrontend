@@ -63,11 +63,11 @@ export class ReportComponent implements OnInit, AfterViewInit {
         datasets: [{
           data: Object.values(roles),
           backgroundColor: [
-            'rgba(255, 99, 132, 0.7)',
-            'rgba(54, 162, 235, 0.7)',
-            'rgba(255, 206, 86, 0.7)',
-            'rgba(75, 192, 192, 0.7)',
-            'rgba(153, 102, 255, 0.7)'
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(40, 144, 213, 0.8)',
+            'rgba(255, 206, 86, 0.8)',
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(153, 102, 255, 0.8)'
           ]
         }]
       },
@@ -94,9 +94,9 @@ export class ReportComponent implements OnInit, AfterViewInit {
         labels: recipes.map((r: any) => r.name),
         datasets: [{
           label: 'Average Rating',
-          data: recipes.map((r: any) => r.averageRating),
-          backgroundColor: 'rgba(75, 192, 192, 0.6)',
-          borderColor: 'rgba(75, 192, 192, 1)',
+          data: recipes.map((r: any) => parseFloat(r.averageRating.toFixed(2))),
+          backgroundColor: 'rgba(5, 150, 105, 0.8)', 
+          borderColor: 'rgba(5, 150, 105, 1)',
           borderWidth: 1
         }]
       },
@@ -157,37 +157,39 @@ export class ReportComponent implements OnInit, AfterViewInit {
   private createMostUsedIngredientsChart(): void {
     const ingredients = this.reports.mealPreparationAnalysis.mostUsedIngredients;
     new Chart(this.mostUsedIngredientsChart.nativeElement, {
-      type: 'bar',
-      data: {
-        labels: ingredients.map((i: any) => i.name),
-        datasets: [{
-          label: 'Usage Count',
-          data: ingredients.map((i: any) => i.count),
-          backgroundColor: 'rgba(54, 162, 235, 0.6)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        indexAxis: 'y', // This makes the bar chart horizontal
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Most Used Ingredients'
-          },
-          legend: {
-            display: false
-          }
+        type: 'bar',
+        data: {
+            labels: ingredients.map((i: any) => i.name),
+            datasets: [{
+                label: 'Usage Count',
+                data: ingredients.map((i: any) => i.count),
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                barPercentage: 1 // Adjust this value to control individual bar width (0.1 to 1)
+            }]
         },
-        scales: {
-          x: {
-            beginAtZero: true
-          }
+        options: {
+            indexAxis: 'y', // This makes the bar chart horizontal
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Most Used Ingredients'
+                },
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            }
         }
-      }
     });
-  }
+}
+
 
   get objectKeys() {
     return Object.keys;
