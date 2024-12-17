@@ -1,20 +1,62 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'ngx-toastr/toastr';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Custom Toast Styles */
+
+/* Toast Container Position */
 .toast-bottom-right {
-    @apply fixed bottom-4 right-4 z-50;
-  }
-  
-  .toast-success {
-    @apply bg-green-500 text-white p-4 rounded shadow-lg;
-  }
-  
-  .toast-error {
-    @apply bg-red-500 text-white p-4 rounded shadow-lg;
-  }
-  
+  @apply fixed bottom-4 right-4 z-50 flex flex-col gap-3;
+}
+
+/* Base Toast Styles */
+.toast {
+  @apply flex items-center gap-3 p-4 rounded-lg shadow-lg text-sm font-medium;
+  min-width: 280px;
+  max-width: 350px;
+  opacity: 0.95;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Success Toast */
+.toast-success {
+  @apply bg-emerald-500 text-white border-l-4 border-green-400;
+}
+
+/* Error Toast */
+.toast-error {
+  @apply bg-red-500 text-white border-l-4 border-red-400;
+}
+
+/* Info Toast */
+.toast-info {
+  @apply bg-blue-500 text-white border-l-4 border-blue-400;
+}
+
+/* Warning Toast */
+.toast-warning {
+  @apply bg-yellow-500 text-white border-l-4 border-yellow-400;
+}
+
+/* Hover Effect */
+.toast:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* Close Button */
+.toast-close-button {
+  @apply text-white text-lg opacity-70 transition-opacity duration-300;
+}
+
+.toast-close-button:hover {
+  opacity: 1;
+}

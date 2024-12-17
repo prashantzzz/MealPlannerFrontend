@@ -93,7 +93,7 @@ export class MealplanComponent implements OnInit {
   
     this.http.post(this.apiUrl, this.newMealPlan, { headers }).subscribe({
       next: () => {
-        this.toastr.success('Meal plan created successfully', 'Success');
+        this.toastr.success('Meal plan created successfully!', 'Success');
         this.fetchMealPlans(); // Refresh meal plans list
         this.resetForm();
       },
@@ -104,7 +104,45 @@ export class MealplanComponent implements OnInit {
     });
   }
   
-
+  deleteMealPlan(id: number): void {
+    if (confirm('Are you sure you want to delete this meal plan?')) {
+      this.mealplansService.deleteMealPlan(id).subscribe({
+        next: () => {
+          this.toastr.success('Meal plan deleted successfully!', 'Success');
+          this.fetchMealPlans(); // Refresh meal plans list
+        },
+        error: () => {
+          this.toastr.error('Error deleting meal plan', 'Error');
+        },
+      });
+    }
+  }
+  
+  editMealPlan(plan: any): void {
+    console.log('Updating Meal Plan with ID:', plan.mealPlanId); // Debugging
+  
+    this.newMealPlan = {
+      startDate: plan.startDate,
+      endDate: plan.endDate,
+      mealType: plan.mealType,
+      recipeId: plan.recipeId,
+      userId: plan.userId,
+    };
+  
+    this.mealplansService.updateMealPlan(plan.mealPlanId, this.newMealPlan).subscribe({
+      next: () => {
+        this.toastr.success('Meal plan updated successfully!', 'Success');
+        this.resetForm();
+        this.fetchMealPlans();
+      },
+      error: (error) => {
+        console.error('Error updating meal plan:', error); // Log the response
+        this.toastr.error('Error updating meal plan', 'Error');
+      },
+    });
+  }
+  
+  
   resetForm(): void {
     this.newMealPlan = {
       startDate: '',
