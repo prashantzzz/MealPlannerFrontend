@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { MealplansService } from '../services/mealplans.service';
 
 @Component({
   selector: 'app-mealprep',
@@ -13,64 +14,96 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MealplanComponent implements OnInit {
   mealPlans: any[] = [];
+  isAdminOrPlanner: boolean = false;
+  isCustomer: boolean = false;
   apiUrl = 'https://localhost:7081/api/mealplans';
   newMealPlan = {
     startDate: '',
     endDate: '',
     mealType: '',
     recipeId: null,
+    userId: null as number | null,
   };
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private toastr: ToastrService, private mealplansService: MealplansService) {}
 
   ngOnInit(): void {
-    this.getMealPlans();
+    this.checkUserRole();
+    this.fetchMealPlans();
   }
 
-  getMealPlans(): void {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      this.toastr.error('User not authenticated', 'Error');
-      return;
+  checkUserRole(): void {
+    const userRole = localStorage.getItem('role'); // Assuming role is stored in localStorage
+    this.isAdminOrPlanner = userRole === 'Admin' || userRole === 'MealPlanner';
+    this.isCustomer = userRole === 'Customer';
+  }
+
+  fetchMealPlans(): void {
+    if (this.isAdminOrPlanner) {
+      // Fetch all meal plans for Admin/MealPlanner
+      this.mealplansService.getAllMealPlans().subscribe({
+        next: (response) => {
+          this.mealPlans = response.data;
+          this.toastr.success('All meal plans loaded successfully!', 'Success');
+        },
+        error: () => {
+          this.toastr.error('Error fetching all meal plans', 'Error');
+        },
+      });
+    } else if (this.isCustomer) {
+      // Fetch user-specific meal plans for Customer
+      this.mealplansService.getMealPlans().subscribe({
+        next: (response) => {
+          this.mealPlans = response.data;
+          this.toastr.success('Your meal plans loaded successfully!', 'Success');
+        },
+        error: () => {
+          this.toastr.error('Error fetching your meal plans', 'Error');
+        },
+      });
+    } else {
+      this.toastr.error('Unauthorized role', 'Error');
     }
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-
-    this.http.get<{ message: string; data: any[] }>(this.apiUrl, { headers }).subscribe({
-      next: (response) => {
-        this.mealPlans = response.data;
-        this.toastr.success('Meal plans loaded successfully!', 'Success');
-      },
-      error: () => {
-        this.toastr.error('Error fetching meal plans', 'Error');
-      },
-    });
   }
+
 
   createMealPlan(): void {
     const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userid'); // Retrieve UserId from localStorage
+  
     if (!token) {
       this.toastr.error('User not authenticated', 'Error');
       return;
     }
-
+  
+    if (!userId) {
+      this.toastr.error('User ID not found. Please log in again.', 'Error');
+      return;
+    }
+  
+    // Assign UserId to the newMealPlan object
+    this.newMealPlan = {
+      ...this.newMealPlan,
+      userId: +userId, // Ensuring UserId is passed and is a number
+    };
+  
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-
+  
     this.http.post(this.apiUrl, this.newMealPlan, { headers }).subscribe({
       next: () => {
         this.toastr.success('Meal plan created successfully', 'Success');
-        this.getMealPlans(); // Refresh meal plans
+        this.fetchMealPlans(); // Refresh meal plans list
         this.resetForm();
       },
-      error: () => {
-        this.toastr.error('Error creating meal plan', 'Error');
+      error: (error) => {
+        console.error('Error creating meal plan:', error);
+        this.toastr.error('Error creating meal plan. Please check your inputs.', 'Error');
       },
     });
   }
+  
 
   resetForm(): void {
     this.newMealPlan = {
@@ -78,6 +111,7 @@ export class MealplanComponent implements OnInit {
       endDate: '',
       mealType: '',
       recipeId: null,
+      userId: null, 
     };
   }
 }

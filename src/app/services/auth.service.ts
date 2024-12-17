@@ -10,19 +10,19 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'https://localhost:7081/api/auth'; // Base URL of your API
+  private baseUrl = 'https://localhost:7081/api/auth'; // Base URL of API
   private jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   login(username: string, password: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, { username, password })
-      .pipe(catchError((error) => this.handleError(error))); // Use arrow function to ensure context
+      .pipe(catchError((error) => this.handleError(error))); 
   }
 
   register(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/register/customer`, data)
-      .pipe(catchError(this.handleError)); // Add error handling here
+      .pipe(catchError(this.handleError)); 
   }
 
   logout(): void {
@@ -38,6 +38,10 @@ export class AuthService {
   getUsername(): string | null {
     return localStorage.getItem('username');
   }
+
+  // getUserId(): number | null {
+  //   return localStorage.getItem('userId');
+  // }
 
   private handleError = (error: any): Observable<never> => {
     this.toastr.error(

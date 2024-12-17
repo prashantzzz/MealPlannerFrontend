@@ -42,6 +42,7 @@ export class LoginComponent {
         localStorage.setItem('token', token.token); // Store JWT token
         localStorage.setItem('role', token.role);   // Store role
         localStorage.setItem('username', token.username); //store username
+        localStorage.setItem('userid', token.userId); //store userid
         this.appComponent.checkAuthentication();    // Update UI state
         this.toastr.success('Logged in successfully!', 'Success'); // Success toastr
         this.router.navigate(['/dashboard']);       // Navigate to dashboard
