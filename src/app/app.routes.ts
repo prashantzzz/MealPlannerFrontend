@@ -8,6 +8,7 @@ import { MealplanComponent } from './mealplan/mealplan.component';
 import { PreferenceComponent } from './preference/preference.component';
 import { ShoppinglistComponent } from './shoppinglist/shoppinglist.component';
 import { ReportComponent } from './report/report.component';
+import { TermsComponent } from './terms/terms.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'preferences', component: PreferenceComponent },
   { path: 'shoppinglist', component: ShoppinglistComponent },
   { path: 'reports', component: ReportComponent },
+  { path: 'terms', component: TermsComponent },
   { path: 'recipes', component: RecipeComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' } // Redirect to /login by default
 ];
