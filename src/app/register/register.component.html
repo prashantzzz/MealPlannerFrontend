@@ -1,60 +1,119 @@
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Register</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4 max-w-md mx-auto">
-      <div class="flex flex-col">
-        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-        <input id="username" type="text" formControlName="username"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm" />
-        <p *ngIf="registerForm.get('username')?.dirty && registerForm.get('username')?.hasError('required')" class="text-red-400 text-sm mt-1">Username is
-          required
-        </p>
-        <p *ngIf="registerForm.get('username')?.hasError('minlength')" class="text-red-400 text-sm mt-1">Username must
-          be at
-          least 3 characters long</p>
+<div class=" p-24 flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex w-full max-w-5xl bg-white rounded-lg shadow-lg overflow-hidden">
+    <!-- Left side with dietician image and overlay text -->
+    <div class="hidden md:block w-1/2 relative">
+      <img src="assets/dietician.png" alt="Professional Dietician" class="w-full h-full object-cover">
+      <div class="absolute inset-0"></div>
+      <div class="absolute bottom-0 left-0 right-0 p-8 text-white bg-gradient-to-t from-black/60">
+        <h1 class="text-3xl font-bold mb-2">Join Our Community</h1>
+        <p class="text-lg">Start your journey towards a healthier lifestyle with expert guidance.</p>
       </div>
+    </div>
 
-      <div class="flex flex-col">
-        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-        <input id="password" type="password" formControlName="password"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm" />
-        <p *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.hasError('required')" class="text-red-400 text-sm mt-1">Password is
-          required
-        </p>
-        <p *ngIf="registerForm.get('password')?.hasError('minlength')" class="text-red-400 text-sm mt-1">Password must
-          be at
-          least 6 characters long</p>
+    <!-- Right side with registration form -->
+    <div class="w-full md:w-1/2 p-8">
+      <div class="max-w-md mx-auto">
+        <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Create Your Account</h2>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+          <div class="flex flex-col">
+            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+            <input 
+              id="username" 
+              type="text" 
+              formControlName="username"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm" 
+            />
+            <p *ngIf="registerForm.get('username')?.dirty && registerForm.get('username')?.hasError('required')" 
+              class="text-red-400 text-sm mt-1">
+              Username is required
+            </p>
+            <p *ngIf="registerForm.get('username')?.hasError('minlength')" 
+              class="text-red-400 text-sm mt-1">
+              Username must be at least 3 characters long
+            </p>
+          </div>
+
+          <div class="flex flex-col">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input 
+              id="email" 
+              type="email" 
+              formControlName="email"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm" 
+            />
+            <p *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.hasError('required')" 
+              class="text-red-400 text-sm mt-1">
+              Email is required
+            </p>
+            <p *ngIf="registerForm.get('email')?.hasError('email')" 
+              class="text-red-400 text-sm mt-1">
+              Please enter a valid email address
+            </p>
+          </div>
+
+          <div class="flex flex-col">
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input 
+              id="password" 
+              type="password" 
+              formControlName="password"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm" 
+            />
+            <p *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.hasError('required')" 
+              class="text-red-400 text-sm mt-1">
+              Password is required
+            </p>
+            <p *ngIf="registerForm.get('password')?.hasError('minlength')" 
+              class="text-red-400 text-sm mt-1">
+              Password must be at least 6 characters long
+            </p>
+          </div>
+
+          <div class="flex flex-col">
+            <label for="phoneNumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
+            <input 
+              id="phoneNumber" 
+              type="text" 
+              formControlName="phoneNumber"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm" 
+            />
+            <p *ngIf="registerForm.get('phoneNumber')?.dirty && registerForm.get('phoneNumber')?.hasError('required')" 
+              class="text-red-400 text-sm mt-1">
+              Phone number is required
+            </p>
+            <p *ngIf="registerForm.get('phoneNumber')?.hasError('pattern')" 
+              class="text-red-400 text-sm mt-1">
+              Phone number must be 10 digits
+            </p>
+          </div>
+
+          <div class="flex items-center mt-4">
+            <input 
+              type="checkbox" 
+              id="terms" 
+              formControlName="terms"
+              class="h-4 w-4 text-emerald-500 focus:ring-emerald-500 border-gray-300 rounded" 
+            />
+            <label for="terms" class="ml-2 block text-sm text-gray-700">
+              I agree to the <a href="#" class="text-emerald-600 hover:text-emerald-500">Terms</a> and
+              <a href="#" class="text-emerald-600 hover:text-emerald-500">Privacy Policy</a>
+            </label>
+          </div>
+
+          <button 
+            type="submit" 
+            [disabled]="registerForm.invalid"
+            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:bg-emerald-400 disabled:cursor-not-allowed mt-6"
+          >
+            Create Account
+          </button>
+
+          <p class="mt-4 text-center text-sm text-gray-600">
+            Already have an account?
+            <a routerLink="/login" class="font-medium text-emerald-600 hover:text-emerald-500">Login here</a>
+          </p>
+        </form>
       </div>
-
-      <div class="flex flex-col">
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input id="email" type="email" formControlName="email"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm" />
-        <p *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.hasError('required')" class="text-red-400 text-sm mt-1">
-          Email is required
-        </p>
-        <p *ngIf="registerForm.get('email')?.hasError('email')" class="text-red-400 text-sm mt-1">
-          Please enter a valid email address</p>
-      </div>
-
-      <div class="flex flex-col">
-        <label for="phoneNumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
-        <input id="phoneNumber" type="text" formControlName="phoneNumber"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm" />
-        <p *ngIf="registerForm.get('phoneNumber')?.dirty && registerForm.get('phoneNumber')?.hasError('required')" class="text-red-400 text-sm mt-1">
-          Phone number is required</p>
-        <p *ngIf="registerForm.get('phoneNumber')?.hasError('pattern')" class="text-red-400 text-sm mt-1">
-          Phone number must be 10 digits</p>
-      </div>
-
-      <button type="submit" [disabled]="registerForm.invalid"
-        class="bg-emerald-500 w-full text-white px-4 py-2 rounded hover:bg-emerald-600 disabled:bg-emerald-500 disabled:cursor-not-allowed">
-        Register
-      </button>
-      <p class="mt-4 text-center text-sm text-gray-600">
-        Already have an account?
-        <a routerLink="/login" class="font-medium text-emerald-600 hover:text-emerald-500">Login here</a>
-      </p>
-    </form>
+    </div>
   </div>
 </div>
