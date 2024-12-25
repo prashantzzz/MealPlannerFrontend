@@ -20,5 +20,5 @@ export const routes: Routes = [
   { path: 'reports', component: ReportComponent },
   { path: 'terms', component: TermsComponent },
   { path: 'recipes', component: RecipeComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/login', pathMatch: 'full' } // Redirect to /login by default
+  { path: '', redirectTo: '/login', pathMatch: 'full' } 
 ];
