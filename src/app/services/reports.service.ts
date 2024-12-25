@@ -33,7 +33,7 @@ export class ReportsService {
   deleteAllReports(): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/report`, { headers: this.getHeaders() }).pipe(
       map(() => {
-        this.toastr.success('All reports deleted successfully.', 'Success');
+        //this.toastr.success('All reports deleted successfully.', 'Success');
       }),
       catchError((error) => this.handleError(error))
     );
@@ -61,7 +61,7 @@ export class ReportsService {
       mealPrep: this.http.get<any>(`${this.apiUrl}/mealprep`, { headers: this.getHeaders() })
     }).pipe(
       map((responses) => {
-        this.toastr.success('Reports data fetched successfully.', 'Success');
+        this.toastr.success('Reports data generated successfully!', 'Success');
         return {
           userStatistics: this.processUserStatistics(responses.users.data),
           recipePopularity: this.processRecipePopularity(responses.recipes.data, responses.reviews.data),

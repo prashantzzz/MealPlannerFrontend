@@ -22,7 +22,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkAuthentication();
-    this.checkAdminRole();
+
+    // Listen for authentication status changes
+    this.authService.authStatus.subscribe(() => {
+      this.checkAuthentication();
+      this.checkAdminRole();
+    });
   }
 
   logout(): void {
@@ -38,9 +43,10 @@ export class AppComponent implements OnInit {
 
   checkAuthentication(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
+    this.checkAdminRole();
   }
 
   toggleMenu(): void {
-    this.menuOpen = !this.menuOpen; // Toggle the menu open state
+    this.menuOpen = !this.menuOpen;
   }
 }
