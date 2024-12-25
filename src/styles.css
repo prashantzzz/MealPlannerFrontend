@@ -19,11 +19,12 @@ body {
 
 /* Base Toast Styles */
 .toast {
-  @apply flex items-center gap-3 p-4 rounded-lg shadow-lg text-sm font-medium;
+  @apply flex items-center gap-3 p-4 rounded-lg text-sm font-medium; 
   min-width: 280px;
   max-width: 350px;
   opacity: 0.95;
   transition: transform 0.3s ease, opacity 0.3s ease;
+  animation: slideIn 0.5s forwards, slideOut 0.5s 3s forwards;
 }
 
 /* Success Toast */
@@ -46,17 +47,3 @@ body {
   @apply bg-yellow-500 text-white border-l-4 border-yellow-400;
 }
 
-/* Hover Effect */
-.toast:hover {
-  transform: scale(1.05);
-  opacity: 1;
-}
-
-/* Close Button */
-.toast-close-button {
-  @apply text-white text-lg opacity-70 transition-opacity duration-300;
-}
-
-.toast-close-button:hover {
-  opacity: 1;
-}

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms'; // For two-way binding
 import { CommonModule } from '@angular/common';
@@ -19,15 +19,22 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username = '';
-  password = '';
+  username: string = '';
+  password: string = '';
+  showPassword: boolean = false;  // Initialize showPassword boolean
 
   constructor(
     private authService: AuthService, 
     private router: Router,
     private appComponent: AppComponent,
+    private route: ActivatedRoute,
     private toastr: ToastrService
   ) {}
+
+  // Toggle the visibility of the password
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   /**
    * works when login is clicked
@@ -45,7 +52,10 @@ export class LoginComponent {
         localStorage.setItem('userid', token.userId); //store userid
         this.appComponent.checkAuthentication();    // Update UI state
         this.toastr.success('Logged in successfully!', 'Success'); // Success toastr
-        this.router.navigate(['/dashboard']);       // Navigate to dashboard
+
+        // Redirect to the requested returnUrl or default to dashboard
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+        this.router.navigateByUrl(returnUrl);
       },
       error: (error) => {
         this.toastr.error(error.error?.message || error.message || 'An unexpected error occurred.',
@@ -53,5 +63,4 @@ export class LoginComponent {
       }
     });
   }
-  
 }

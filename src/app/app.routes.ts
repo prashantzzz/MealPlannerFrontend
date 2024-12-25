@@ -14,11 +14,14 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'mealplan', component: MealplanComponent },
-  { path: 'preferences', component: PreferenceComponent },
-  { path: 'shoppinglist', component: ShoppinglistComponent },
-  { path: 'reports', component: ReportComponent },
-  { path: 'terms', component: TermsComponent },
+
+  //auth guard ensures If authenticated: returns true; else it redirects to the /login page and denies access (return false).
+  { path: 'mealplan', component: MealplanComponent, canActivate: [AuthGuard] },
+  { path: 'preferences', component: PreferenceComponent, canActivate: [AuthGuard] },
+  { path: 'shoppinglist', component: ShoppinglistComponent, canActivate: [AuthGuard] },
+  { path: 'reports', component: ReportComponent, canActivate: [AuthGuard] },
   { path: 'recipes', component: RecipeComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/login', pathMatch: 'full' } 
+  
+  { path: 'terms', component: TermsComponent },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
